@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="shwing"></p>
+
+<script>
+var x = document.getElementById("shwing");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+
+</body>
+
+  <p> Your Phone's Battery Status: </p>
+ 
+ <script>
+    function BatteryStatus () {
+      function updateBatteryStatus(battery) {
+        var batteryStat = battery.level*100+"%"
+		console.log(batteryStat)
+		document.querySelector('#charging').textContent = battery.charging ? 'Plugged in and Charging' : 'Not charging';
+        document.querySelector('#level').textContent = batteryStat;
+      
+      }
+
+      navigator.getBattery().then(function(battery) {
+      
+        updateBatteryStatus(battery);
+
+      
+        battery.onchargingchange = function () {
+          updateBatteryStatus(battery);
+        };
+
+        battery.onlevelchange = function () {
+          updateBatteryStatus(battery);
+        };
+
+        
+      });
+    };
+  </script>
+
+
+<body>
+  <div id="charging"></div>
+  <div id="level"></div>
+<button onclick="BatteryStatus()">Click Here!!</button>
+</body>
+
+  <P> Press to vibrate: </p>
+        <script>
+		
+		function Vibrate ()
+		{
+		var bzzz = window.navigator.vibrate(200);
+		console.log(bzzz)
+		}
+		
+		</script>
+		<body>
+		<button onclick="Vibrate()">Click Here!!</button>
+    </body>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<head>
+<P> Take a Picture </p>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    var pictureSource;   
+    var destinationType; 
+
+
+    document.addEventListener("deviceready",onDeviceReady,false);
+
+ 
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+
+    function onPhotoDataSuccess(imageData) {
+
+		console.log(imageData);
+
+      var smallImage = document.getElementById('smallImage');
+
+    
+      smallImage.style.display = 'block';
+
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+    }
+
+   
+   
+    function capturePhoto() {
+      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 100,
+        destinationType: destinationType.DATA_URL });
+    }
+
+
+    //
+    function getPhoto(source) {
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 100,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+   
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+function cameraCallback(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = "data:image/jpeg;base64," + imageData;
+}
+function movePic(file){ 
+    window.resolveLocalFileSystemURI(file, resolveOnSuccess, resOnError); 
+} 
+
+function resolveOnSuccess(imageData){ 
+    var d = new Date();
+    var n = d.getTime();
+    var newFileName = n + ".jpg";
+    var myFolderApp = "EasyPacking";
+
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {      
+    fileSys.root.getDirectory( myFolderApp,
+                    {create:true, exclusive: false},
+                    function(directory) {
+                        imageData.moveTo(directory, newFileName,  successMove, resOnError);
+                    },
+                    resOnError);
+                    },
+    resOnError);
+}
+
+
+function successMove(imageData) {imageData.moveTo(directory, newFileName,  successMove, resOnError)
+    
+}
+
+function resOnError(error) {
+    alert(error.code);
+}
+
+
+
+ 
+    </script>
+  </head>
+  <body>
+    <P><button onclick="capturePhoto();">Capture Photo</button> <br></P>
+    <img style="display:none;width:240px;height:400px;" id="smallImage" src="" />
+    
+  </body>
+	
+	
+	
+	
+	
+	
+</html>
